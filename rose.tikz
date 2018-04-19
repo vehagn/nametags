@@ -1,0 +1,18 @@
+\documentclass[]{standalone}
+
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{tikz}
+\usepackage[outline]{contour}
+\contourlength{0.2pt}
+%\usepackage{arev}
+
+\begin{document}
+\begin{tikzpicture}[smooth]
+		\def\size{5}
+		\draw [line width=0pt] (-1,-1) -- (-1,-1) (1,1) -- (1,1);
+		%\draw [line width=\size*0.2pt, color=white, fill=Sepia, domain=0:12*pi, samples=1080, smooth]
+		%		plot (xy polar cs:angle=\x r, radius={\size*sin((7/6)*\x r)});
+		\draw [line width=\size*0.2pt, color=white, fill=BrickRed, domain=0:12*pi, samples=1080, smooth]
+				plot (xy polar cs:angle=\x r, radius={\size*0.95*sin((7/3)*\x r)});
+\end{tikzpicture}
+\end{document}

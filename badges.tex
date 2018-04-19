@@ -1,0 +1,96 @@
+%%%%
+%
+% ticket.sty example file for a pin for conferences
+%
+%%%%
+% use the corresponding paper size for your ticket definition
+\documentclass[a4paper,10pt]{letter}
+\usepackage[margin=0mm]{geometry}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{tikz}
+
+\usepackage[utf8x]{inputenc}
+\usepackage[T1,T2A]{fontenc}
+
+\usepackage[
+            final,
+            tracking=true,
+            spacing=true,
+            factor=1100,
+            stretch=10,
+            shrink=10
+            ]{microtype}
+
+\usepackage{tgheros}
+\usepackage{charter}
+\usepackage[bitstream-charter]{mathdesign}
+\normalfont
+\usepackage{pifont}
+\usepackage{calligra}
+
+% load ticket.sty with the appropriate ticket definition
+\usepackage[crossmark]{ticket} %boxed, crossmark
+\usepackage{datatool}
+
+% load misc stuff
+\usepackage{graphicx}
+
+\definecolor{myred}{RGB}{ 132,035,038}
+\definecolor{myblue}{RGB}{055,116,182}
+\definecolor{mygrey}{RGB}{037,039,038}
+
+\makeatletter
+\newcommand\HUGE{\@setfontsize\Huge{40}{60}}
+\makeatother
+
+\unitlength=1mm
+\ticketSize{70}{37}  %Size of nametags
+\ticketNumbers{3}{8}  %Number of nametags on the sheet in horizontal and vertical direction.
+\ticketDistance{0}{0} %Distance between each nametag
+
+%% Printer offsets
+\hoffset=-25.3mm
+\voffset=-28.5mm
+
+\usepackage{ifthen}
+
+\newcommand{\food}[1]{%
+  \ifthenelse{\equal{#1}{Yes}}
+    {\includegraphics[height=7mm]{dinner.pdf}}
+    {\includegraphics[height=7mm]{rose.pdf}}%
+}
+
+% make your default ticket. \ticketdefault is somewhat like a background
+\renewcommand{\ticketdefault}{%
+    \put( 5, 34.5){\textcolor{mygrey}{\rule{6cm}{.7mm}}}
+    \put( 5, 8){\textcolor{mygrey}{\rule{6cm}{.7mm}}}
+
+	%\put(35,  30){\makebox[0mm]{\huge\textcolor{BrickRed}
+	%	{ROSE 2018}
+    %	}}
+
+	\put(35,  1.5){\makebox[0mm]{\huge\textcolor{BrickRed}
+		{ROSE 2018}
+		}}
+    %\put(68,  2){\includegraphics[height=10mm]{logo.pdf}}
+    %\put(35,  7){\makebox[0mm]{\huge\color{myblue!80!black}\textbf{Open Science}}}
+    %\put(35,  3){\makebox[0mm]{\normalsize \textcolor{mygrey}{23rd\textendash 26th April}}}
+    \put(5,   .5){\makebox[7mm][l]{\includegraphics[height=7mm]{rose.pdf}}}
+}
+
+% now what do you like to put in your ticket
+\newcommand{\confpin}[4]{\ticket{%
+    \put(3,20.1){\makebox[64mm][c]{\parbox[c][8em][c]{64mm}{\center \textcolor{mygrey}{ \Huge #1 \\ \huge #2 \\ \vspace{.2em} \Large #3 \vfill}}}}
+    \put(58,0){\makebox[7mm][l]{\food{#4}}}%
+}}
+
+%% the pins for the partipiciants \ldots ;-)
+%% you can generate this part from a database!
+\begin{document}
+\DTLloaddb{list}{names.csv}
+\DTLforeach{list}{
+    \first=Name, \last=Last, \association=Company, \dinner=Dinner}
+{
+    \confpin{\first}{\last}{\association}{\dinner}
+}
+\end{document}
